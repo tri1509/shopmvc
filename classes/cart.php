@@ -46,8 +46,7 @@
 
         public function get_product_cart(){
             $sId = session_id();
-            $query = "SELECT * FROM tbl_cart 
-            WHERE sessionId = '$sId' ";
+            $query = "SELECT * FROM tbl_cart WHERE sessionId = '$sId' ";
             $result = $this->db->select($query);
             return $result;
         }
@@ -58,8 +57,7 @@
             $query = "UPDATE tbl_cart SET quantity = '$quantity' WHERE cartId='$cartId'";
             $result = $this->db->update($query);
             if($result){
-                $mgs = "<span class='success'>Đã cập nhật thành công!!!</span>";
-                return $mgs;
+                header('Location:cart.php');
             }else{
                 $mgs = "Lỗi rồi bà dà";
                 return $mgs;
@@ -71,12 +69,18 @@
             $query = "DELETE FROM tbl_cart WHERE cartID = '$cartDel'";
             $result = $this->db->delete($query);
             if($result){
-                $mgs = "<span class='success'>Đã xoá giỏ hàng thành công!!!</span>";
-                return $mgs;
+                header('Location:cart.php');
             }else{
                 $mgs = "Lỗi rồi bà dà";
                 return $mgs;
             }
+        }
+
+        public function check_cart() {
+            $sId = session_id();
+            $query = "SELECT * FROM tbl_cart WHERE sessionId = '$sId' ";
+            $result = $this->db->select($query);
+            return $result;
         }
     }
 ?>

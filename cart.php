@@ -7,11 +7,19 @@
 		$cartId = $_POST['cartId'];
 		$quantity = $_POST['quantity'];
 		$update_quantity_cart = $ct -> update_quantity_cart($quantity,$cartId);
+		if($quatity = 0) {
+			$cartDel = $ct->del_cart($cartId);
+		}
 	}
 	if(isset($_GET['cartid']) && $_GET['cartid']!=NULL){
         $cartDel = $_GET['cartid'];
 		$cartDel = $ct->del_cart($cartDel);
     }
+?>
+<?php
+	if(!isset($_GET['id'])) {
+		echo "<meta http-equiv='refresh' content='0;URL=?id=live'>";
+	}
 ?>
 <div class="main">
     <div class="content">
@@ -42,10 +50,12 @@
 						$subTotal = 0;
 						$total = 0;
 						$gtotal = 0;
+						$qty = 0;
 						if($get_product_cart){
 							$i = 0;
 							while($result = $get_product_cart -> fetch_assoc()){
 								$total = $result['price'] * $result['quantity'];
+								$qty = $qty + $result['quantity'];
 								$subTotal += $total ;
 								$gtotal = $subTotal * 1.1;
 								$i++;
@@ -57,21 +67,31 @@
 						<td><?php echo number_format($result['price'])." vnd"  ?></td>
 						<td>
 							<form action="" method="post">
-								<input type="hidden" name="cartId" value="<?php echo $result['cartId'] ?>" min="1"/>
-								<input type="number" name="quantity" value="<?php echo $result['quantity'] ?>" min="1"/>
+								<input type="hidden" name="cartId" value="<?php echo $result['cartId'] ?>"/>
+								<input type="number" name="quantity" value="<?php echo $result['quantity'] ?>" min="0"/>
 								<input type="submit" name="submit" value="Update"/>
 							</form>
 						</td>
 						<td><?php echo number_format($total)." vnd"; ?></td>
-						<td><a href="?cartid=<?php echo $result['cartId'] ?>">X</a></td>
+						<td><a href="?cartid=<?php echo $result['cartId'] ?>" onclick="return confirm('mày có muốn xoá không?')">X</a></td>
 					</tr>
 					<?php }} ?>
 					
 				</table>
+				<?php
+					$check_cart = $ct -> check_cart();
+					if($check_cart){
+				?>
 				<table style="float:right;text-align:left;" width="40%">
 					<tr>
 						<th>Sub Total : </th>
-						<td><?php echo number_format($subTotal)." vnd"; ?></td>
+						<td>
+							<?php
+								echo number_format($subTotal)." vnd"; 
+								session::set('sum',$subTotal);
+								session::set('qty',$qty);
+							?>
+						</td>
 					</tr>
 					<tr>
 						<th>VAT : </th>
@@ -82,6 +102,12 @@
 						<td><?php echo number_format($gtotal)." vnd"; ?></td>
 					</tr>
 				</table>
+				<?php 
+					}else{
+						echo "<p style='text-align:center; font-size:20px; color:blue;'>Giỏ hàng có cái nịt !!!!</p>
+						<p style='text-align:center; font-size:20px; color:blue;'>Làm ơn mua hàng giùm :)</p>";
+					}
+				?>
 					</div>
 					<div class="shopping">
 						<div class="shopleft">

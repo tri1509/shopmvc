@@ -61,7 +61,18 @@
                 <div class="cart">
                     <a href="#" title="View my shopping cart" rel="nofollow">
                             <span class="cart_title">Cart</span>
-                            <span class="no_product">(empty)</span>
+                            <span class="no_product">
+                                <?php
+                                    $check_cart = $ct -> check_cart();
+                                    if($check_cart){
+                                        $sum = session::get("sum");
+                                        $qty = session::get("qty");
+                                        echo number_format($sum)." đ"." - "."$qty";
+                                    }else{
+                                        echo "empty";
+                                    }
+                                ?>
+                            </span>
                         </a>
                     </div>
                 </div>

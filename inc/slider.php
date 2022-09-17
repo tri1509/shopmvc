@@ -2,16 +2,22 @@
 	<div class="header_bottom">
 		<div class="header_bottom_left">
 			<div class="section group">
+				<?php
+					$getLastestDell = $product -> getLastestDell();
+					if($getLastestDell) {
+						while($resultDell = $getLastestDell -> fetch_assoc()){
+				?>
 				<div class="listview_1_of_2 images_1_of_2">
 					<div class="listimg listimg_2_of_1">
-						 <a href="details.php"> <img src="images/pic4.png" alt="" /></a>
+						 <a href="details.php"> <img src="admin/uploads/<?php echo $resultDell['img'] ?>" alt="" /></a>
 					</div>
 				    <div class="text list_2_of_1">
-						<h2>Iphone</h2>
+						<h2>Dell</h2>
 						<p>Lorem ipsum dolor sit amet sed do eiusmod.</p>
 						<div class="button"><span><a href="details.php">Add to cart</a></span></div>
 				   </div>
-			   </div>			
+			   </div>		
+			   <?php } }?>	
 				<div class="listview_1_of_2 images_1_of_2">
 					<div class="listimg listimg_2_of_1">
 						  <a href="details.php"><img src="images/pic3.png" alt="" / ></a>

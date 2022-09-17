@@ -52,4 +52,11 @@
  <?php 
  include 'inc/footer.php';
  ?>
+ 
+
+ <!-- 
+	git remote add origin https://github.com/tri1509/shopmvc.git
+	git branch -M main
+	git push -u origin main
+  -->
 
