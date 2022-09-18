@@ -60,12 +60,12 @@
         }
 
         public function getcatbyId($id){
-            $query = "SELECT * FROM tbl_category WHERE catID = '$id'";
+            $query = "SELECT * FROM tbl_category WHERE catId = '$id'";
             $result = $this->db->select($query);
             return $result;
         }
         public function del_category($id) {
-            $query = "DELETE FROM tbl_category WHERE catID = '$id'";
+            $query = "DELETE FROM tbl_category WHERE catId = '$id'";
             $result = $this->db->delete($query);
             if($result){
                 $alert= "<span class='success'>Đã xoá rồi bà dà</span>";
@@ -75,6 +75,22 @@
                 return $alert;
 
             }
+        }
+
+        public function get_product_by_cat($id) {
+            $query = "SELECT * FROM tbl_product WHERE catId = '$id' ORDER BY CatId ASC";
+            $result = $this->db->select($query);
+            return $result;
+        }
+
+        public function get_name_by_cat($id) {
+            $query = 
+            "SELECT tbl_product.*,tbl_category.catName, tbl_category.catId
+            FROM tbl_product,tbl_category
+            WHERE tbl_product.catId = tbl_category.catId
+            AND tbl_product.catId = '$id' ";
+            $result = $this->db->select($query);
+            return $result;
         }
         
     }

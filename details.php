@@ -51,7 +51,13 @@
 		<div class="rightsidebar span_3_of_1">
 			<h2>CATEGORIES</h2>
 			<ul>
-				<li><a href="productbycat.html">Mobile Phones</a></li>
+				<?php 
+					$showCat = $cat -> show_category();
+					if($showCat) {
+						while($result_showCat = $showCat -> fetch_assoc()){
+				?>
+				<li><a href="productbycat.php?catid=<?php echo $result_showCat['catId'] ?>"><?php echo $result_showCat['catName'] ?></a></li>
+				<?php }} ?>
 			</ul>
 
 		</div>
