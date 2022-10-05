@@ -12,9 +12,16 @@
     $db = new Database();
     $fm = new Format();
     $ct = new cart();
+    $cs = new customer();
     $us = new user();
     $cat = new category();
     $product = new product();
+?>
+<?php
+    if(isset($_GET['customerid'])){
+        $delCart = $ct -> del_all_data_cart();
+        session::destroy();
+    }
 ?>
 
 <?php
@@ -76,7 +83,24 @@
                         </a>
                     </div>
                 </div>
-        <div class="login"><a href="login.php">Login</a></div>
+                <?php
+                    if(isset($_GET['customerid'])){
+                        session::destroy();
+                    }
+                ?>
+        <div class="login">
+            <?php 
+                $login_check = Session::get('customer_login');
+                if($login_check) {
+            ?>
+                    <a href="?customerid=<?php echo Session::get('customer_id')?>"> Đăng xuất</a>
+
+            <?php
+                }else{
+                    echo "<a href='login.php'>Đăng Nhập</a>";
+                }
+            ?>
+        </div>
         <div class="clear"></div>
     </div>
     <div class="clear"></div>
@@ -86,8 +110,19 @@
 	  <li><a href="index.php">Home</a></li>
 	  <li><a href="products.php">Products</a> </li>
 	  <li><a href="topbrands.php">Top Brands</a></li>
-	  <li><a href="cart.php">Cart</a></li>
-	  <li><a href="contact.php">Contact</a> </li>
+    <?php
+        $check_cart = $ct -> check_cart();
+        if($check_cart) {
+    ?>
+        <li><a href="cart.php">Cart</a></li>
+    <?php } ?>
+
+	  <li><a href="contact.php">Contact</a></li>
+      <?php
+        if($login_check) {
+      ?>
+	    <li><a href="profile.php">profile</a> </li>
+      <?php } ?>
 	  <div class="clear"></div>
 	</ul>
 </div>

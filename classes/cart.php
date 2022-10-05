@@ -76,11 +76,46 @@
             }
         }
 
+        public function del_all_data_cart() {
+            $sId = session_id();
+            $query = "DELETE FROM tbl_cart WHERE sessionId = '$sId' ";
+            $result = $this->db->select($query);
+            return $result;
+        }
+
         public function check_cart() {
             $sId = session_id();
             $query = "SELECT * FROM tbl_cart WHERE sessionId = '$sId' ";
             $result = $this->db->select($query);
             return $result;
+        }
+
+        public function insertOrder($customer_id) {
+            $sId = session_id();
+            $query = "SELECT * FROM tbl_cart WHERE sessionId = '$sId' ";
+            $get_product = $this->db->select($query);
+            if($get_product) {
+                while($result = $get_product -> fetch_assoc()) {
+                    $productId = $result['productId'];
+                    $productName = $result['productName'];
+                    $quantity = $result['quantity'];
+                    $price = $result['price'] * $quantity;
+                    $img = $result['img'];
+                    $customer_id = $customer_id;
+                    $query_order =
+                    "INSERT INTO tbl_order(productId,productName,quantity,price,img,customer_id) 
+                    VALUES('$product_id','$productName','$quantity','$price','$img','$customer_id')";
+                    $query_order = $this->db->insert($query_order);
+                    
+                }
+            }
+        }
+
+        public function getAmountPrice($customer_id) {
+            $query = "SELECT * FROM tbl_order WHERE customer_id = '$customer_id' AND date_order = now()";
+            $get_price = $this->db->select($query);
+            return $get_price;
+
         }
     }
 ?>
